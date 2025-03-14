@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>动画椭圆渐变</title>
+    <style>
+        /* 容器样式 - 让椭圆居中 */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1a1a1a; /* 深色背景更好展示效果 */
+        }
+
+        /* 动画椭圆核心样式 */
+        .animated-ellipse {
+            width: 300px;
+            height: 200px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3); /* 添加投影增强立体感 */
+        }
+
+        /* 伪元素实现渐变动画 */
+        .animated-ellipse::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                ellipse at 50% 50%,
+                #ff6b6b 0%,
+                #4ecdc4 35%,
+                #45b7d1 65%,
+                #96c93d 100%
+            );
+            background-size: 400% 400%;
+            animation: gradientFlow 8s ease infinite;
+            border-radius: 40%;
+            transform: rotate(45deg);
+            mix-blend-mode: screen; /* 混合模式增强颜色效果 */
+        }
+
+        /* 关键帧动画 */
+        @keyframes gradientFlow {
+            0% {
+                transform: rotate(0deg) scale(1);
+                background-position: 0% 50%;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.2);
+                background-position: 100% 50%;
+                opacity: 0.8; /* 添加透明度变化 */
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 可选：添加边框动画 */
+        .animated-ellipse::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: borderPulse 3s ease infinite;
+        }
+
+        @keyframes borderPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="animated-ellipse"></div>
+    </div>
+</body>
+</html>
