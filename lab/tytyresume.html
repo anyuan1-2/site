@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>个人简历</title>
+    <style>
+        /* 动态椭圆样式 */
+        .gradient-container {
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            background: white;
+        }
+        .gradient-ellipse {
+            width: 400px;
+            height: 200px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .gradient-ellipse::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                ellipse closest-side,
+                #FF0000 20%,
+                #FFD700 50%,
+                #FFFF00 80%
+            );
+            animation: gradientFlow 6s linear infinite;
+            opacity: 0.8;
+        }
+        .gradient-ellipse::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(255,255,255,0.3) 0%,
+                rgba(255,255,255,0.8) 100%
+            );
+        }
+        @keyframes gradientFlow {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* 简历原有样式 */
+        body {
+            font-family: 'Microsoft YaHei', SimSun, sans-serif;
+            margin: 0;
+            background: #fff;
+        }
+        .resume {
+            width: 794px;
+            margin: 20px auto;
+            line-height: 1.5;
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin: 15px 0;
+            letter-spacing: 8px;
+        }
+        .info-box {
+            display: grid;
+            grid-template-columns: 1fr 120px;
+            margin-bottom: 20px;
+        }
+        .basic-info {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            align-items: center;
+        }
+        .photo {
+            width: 120px;
+            height: 160px;
+            border: 1px solid #000;
+            margin-left: 20px;
+        }
+        .section {
+            margin: 15px 0;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            border-left: 3px solid #000;
+            padding-left: 8px;
+            margin: 12px 0;
+        }
+        ol {
+            margin: 8px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 5px 0;
+        }
+        .education-note {
+            font-size: 14px;
+            color: #666;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态椭圆容器 -->
+    <div class="gradient-container">
+        <div class="gradient-ellipse"></div>
+    </div>
+
+    <!-- 完整简历内容 -->
+    <div class="resume">
+        <h1>个 人 简 历</h1>
+
+        <div class="info-box">
+            <div class="basic-info">
+                <div>姓　　名：</div><div>简小丽</div>
+                <div>年　　齢：</div><div>26</div>
+                <div>性　　别：</div><div>女</div>
+                <div>地　　址：</div><div>湖南长沙岳麓区</div>
+                <div>电　　话：</div><div>135-0000-0000</div>
+                <div>婚姻状况：</div><div>已婚</div>
+                <div>求职意向：</div><div>区域经理</div>
+            </div>
+            <img src="resume-photo.jpg" alt="证件照" class="photo">
+        </div>
+
+        <div class="section">
+            <div class="section-title">工作经历</div>
+            <p>一、社区服务站慢病管理员</p>
+            <ol>
+                <li>负责为客户进行体检并解读体检结果</li>
+                <li>评估客户的健康状况和所患疾病危险性；进行健康咨询与指导</li>
+                <li>对患者进行糖尿病、高血压检测工作</li>
+            </ol>
+            
+            <p>二、药店店员（工作经验四年）</p>
+            <ol>
+                <li>负责接待顾客的咨询，了解顾客的需求并达成销售</li>
+                <li>负责做好货品销售记录、盘点、账目核对等工作，按规定完成各项销售统计工作</li>
+                <li>完成商品的来货验收、上架陈列摆放、补货、退货、防损等日常营业工作</li>
+                <li>做好所负责区域的卫生清洁工作</li>
+                <li>了解公司下达的销售任务指标，进行销售任务的分解</li>
+                <li>对商品的价格、产地等做到了如指掌</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <div class="section-title">教育经历</div>
+            <p>中专学历<span class="education-note">（本人学历不高，正在就读成人高考）</span></p>
+        </div>
+
+        <div class="section">
+            <div class="section-title">社会关系</div>
+            <ol>
+                <li>家人从事教育行业老师和学校领导等工作</li>
+                <li>本人对象与很多老板是朋友关系，具有一定的社会关系</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <div class="section-title">自我评价</div>
+            <ol>
+                <li>对于市场具有一定的视察诊断能力，了解当地市场人流量、竞争情况、消费喜好、消费者分布情况</li>
+                <li>对于产品、人员、价格等具有一定的管理能力</li>
+                <li>对于营销知识及品牌知识等具有一定的了解</li>
+                <li>具有一定的会预测、分析、洞察和规划布局等能力</li>
+                <li>能快速了解公司营销方案并执行等能力</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
