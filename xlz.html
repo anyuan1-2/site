@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>简小丽 - 简历</title>
+    <style>
+        /* 动画径向渐变椭圆 */
+        .gradient-ellipse {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 400px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background-image: radial-gradient(
+                circle at 50% 50%,
+                rgba(255, 192, 203, 0.8),
+                rgba(147, 112, 219, 0.6)
+            );
+            animation: gradientShift 8s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-size: 100% 100%; }
+            50% { background-size: 150% 150%; }
+            100% { background-size: 100% 100%; }
+        }
+
+        /* CSS网格布局 */
+        .resume-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            display: grid;
+            grid-gap: 20px;
+        }
+
+        .personal-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            color: #6a5acd;
+            margin: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-ellipse"></div>
+    
+    <div class="resume-container">
+       
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        img {
+            width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 简历头部和照片 -->
+    <h1>Xiaoliuzi's Resume</h1>
+    < img src="C:\Users\lenovo\Documents\xwechat_files\wxid_88hwgnj8axsr32_ccd5\temp\2025-03\RWTemp\6dc4f11d6be2e3393021fdd24c3a834f.jpg" alt="Xiaoliuzi's Photo"> 
+
+    <!-- 联系信息 -->
+    <h2>Contact Information</h2>
+    <table>
+        <tr>
+            <th>Email</th>
+            <td>3073227467@qq.com</td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td>15633413801</td>
+        </tr>
+    </table>
+
+  
+    <!-- 教育背景 -->
+    <h2>Education</h2>
+    <table>
+        <tr>
+            <th>Degree</th>
+            <td>Ningbo Technology University in Computer Science</td>
+        </tr>
+        <tr>
+            <th>University</th>
+            <td>Ningbo Technology University</td>
+        </tr>
+        <tr>
+            <th>Graduation Year</th>
+            <td>2028</td>
+        </tr>
+    </table>
+
+</body>
+</html>
