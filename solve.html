@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+  // (1) 获取用户输入
+  let a = parseFloat(prompt("请输入系数 a:"));
+  let b = parseFloat(prompt("请输入系数 b:"));
+  let c = parseFloat(prompt("请输入系数 c:"));
+
+  // (3) 计算判别式（修正了原图的 A -> a）
+  const delta = b * b - 4 * a * c;
+
+  // (4) 计算根（修正 β -> b 和 adta -> delta）
+  const x1 = (-b + Math.sqrt(delta)) / (2 * a);
+  const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+
+  // (5) 弹窗显示结果
+  alert(`解为：\nx1 = ${x1.toFixed(2)}\nx2 = ${x2.toFixed(2)}`);
+
+  // (6) 控制台输出（按 F12 查看）
+  console.log("系数：", { a, b, c });
+  console.log("判别式 delta:", delta);
+  console.log("解：", { x1, x2 });
+</script>
+</body>
+</html>
