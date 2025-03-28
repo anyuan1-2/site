@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>二次方程求解器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .equation-input {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 20px 0;
+        }
+        input {
+            width: 60px;
+            padding: 5px;
+            text-align: center;
+        }
+        button {
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #solution {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h2>二次方程求解器</h2>
+    <div class="equation-input">
+        <input type="number" id="a" step="any"> x² + 
+        <input type="number" id="b" step="any"> x + 
+        <input type="number" id="c" step="any"> = 0
+    </div>
+    <button onclick="solveQuadratic()">解决</button>
+
+    <div id="solution"></div>
+
+    <script>
+        function solveQuadratic() {
+            // 获取输入值
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const c = parseFloat(document.getElementById('c').value);
+            const solutionDiv = document.getElementById('solution');
+
+            // 处理退化情况（非二次方程）
+            if (a === 0) {
+                if (b === 0) {
+                    solutionDiv.innerHTML = c === 0 
+                        ? "所有实数都是解" 
+                        : "无解";
+                } else {
+                    const x = -c / b;
+                    solutionDiv.innerHTML = `x = ${x.toFixed(2)}`;
+                }
+                return;
+            }
+
+            // 计算判别式
+            const discriminant = b * b - 4 * a * c;
+            const denominator = 2 * a;
+
+            // 处理不同情况
+            if (discriminant > 0) {
+                const sqrtD = Math.sqrt(discriminant);
+                const x1 = (-b + sqrtD) / denominator;
+                const x2 = (-b - sqrtD) / denominator;
+                solutionDiv.innerHTML = `
+                    x₁ = ${x1.toFixed(2)}<br>
+                    x₂ = ${x2.toFixed(2)}
+                `;
+            } else if (discriminant === 0) {
+                const x = -b / denominator;
+                solutionDiv.innerHTML = `x = ${x.toFixed(2)}`;
+            } else {
+                const realPart = (-b / denominator).toFixed(2);
+                const imagPart = (Math.sqrt(-discriminant) / denominator).toFixed(2);
+                solutionDiv.innerHTML = `
+                    x₁ = ${realPart} + ${imagPart}i<br>
+                    x₂ = ${realPart} - ${imagPart}i
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
