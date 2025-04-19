@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        canvas {
+            background: white;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 设置画布尺寸
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let balloons = [];
+        
+        // 生成鲜艳颜色
+        function getRandomColor() {
+            return `hsl(${Math.random() * 360}, 70%, 60%)`;
+        }
+
+        function createBalloon() {
+            return {
+                x: Math.random() * canvas.width,
+                y: canvas.height + 50,
+                radius: 8 + Math.random() * 24, // 8-32像素
+                speed: 0.8 + Math.random() * 1.5, // 0.8-2.3像素/帧
+                color: getRandomColor()
+            };
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 控制生成速度（约每秒1.5个）
+            if (Math.random() < 0.025) {
+                balloons.push(createBalloon());
+            }
+
+            balloons.forEach((balloon, index) => {
+                // 更新位置并添加横向微动
+                balloon.y -= balloon.speed;
+                balloon.x += Math.sin(balloon.y * 0.01) * 0.5; // 横向摆动
+
+                // 绘制气球
+                ctx.beginPath();
+                ctx.arc(balloon.x, balloon.y, balloon.radius, 0, Math.PI * 2);
+                ctx.fillStyle = balloon.color;
+                ctx.fill();
+
+                // 移除超出画布的气球
+                if (balloon.y < -balloon.radius * 2) {
+                    balloons.splice(index, 1);
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // 窗口自适应
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
