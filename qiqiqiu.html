@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #87CEEB;
+        }
+        .balloon {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            width: 2px;
+            height: 15px;
+            background: #ffd700;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+<script>
+(function() {
+    function createBalloon() {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        
+        // 随机颜色和大小
+        const hue = Math.random() * 360;
+        const initialSize = 30 + Math.random() * 20; // 初始大小30-50px
+        const scaleFactor = 0.5 + Math.random() * 0.5; // 缩放系数0.5-1.0
+        
+        Object.assign(balloon.style, {
+            width: `${initialSize}px`,
+            height: `${initialSize * 1.2}px`, // 椭圆形气球
+            backgroundColor: `hsla(${hue}, 100%, 50%, 0.8)`,
+            left: `${Math.random() * window.innerWidth}px`,
+            bottom: `${-initialSize}px`
+        });
+
+        document.body.appendChild(balloon);
+        return { element: balloon, initialSize, scaleFactor };
+    }
+
+    function animateBalloon({ element, initialSize, scaleFactor }) {
+        const startTime = Date.now();
+        const duration = 8000 + Math.random() * 4000; // 持续时间8-12秒
+        const horizontalSpeed = (Math.random() - 0.5) * 0.2; // 随机水平移动方向
+
+        function update() {
+            const elapsed = Date.now() - startTime;
+            const progress = elapsed / duration;
+
+            if (progress >= 1) {
+                element.remove();
+                return;
+            }
+
+            // 垂直运动（缓动效果）
+            const verticalPosition = Math.pow(progress, 0.8) * (window.innerHeight + initialSize * 2);
+            
+            // 水平漂移
+            const horizontalOffset = Math.sin(elapsed / 1000) * 50 + horizontalSpeed * elapsed;
+            
+            // 大小变化
+            const currentScale = 1 + progress * scaleFactor;
+            
+            // 透明度变化
+            const opacity = 1 - Math.pow(progress, 2);
+
+            element.style.transform = `translate(${horizontalOffset}px, -${verticalPosition}px) scale(${currentScale})`;
+            element.style.opacity = opacity;
+
+            requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    // 每1.5秒创建一个新气球
+    setInterval(() => {
+        const balloon = createBalloon();
+        animateBalloon(balloon);
+    }, 1500);
+
+    // 初始创建3个气球
+    for (let i = 0; i < 3; i++) {
+        setTimeout(() => animateBalloon(createBalloon()), i * 500);
+    }
+})();
+</script>
+</body>
+</html>
