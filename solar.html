@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        #solar-system {
+            width: 1500px;
+            height: 800px;
+            position: relative;
+            margin: 20px auto;
+        }
+        
+        .star, .planet {
+            position: absolute;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .star {
+            z-index: 10;
+        }
+        
+        .orbit {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        #info-table {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 100;
+        }
+        
+        table {
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+        
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        th:hover {
+            background: #f0f0f0;
+        }
+        
+        .color-swatch {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="solar-system"></div>
+    <div id="info-table">
+        <table>
+            <thead>
+                <tr>
+                    <th data-sort="name">Name ▲</th>
+                    <th data-sort="mass">Mass (Earth masses) ▲</th>
+                    <th data-sort="orbitRadius">Orbit Radius (px) ▲</th>
+                    <th data-sort="color">Color ▲</th>
+                    <th data-sort="diameter">Diameter (px) ▲</th>
+                </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+    </div>
+
+<script>
+// 原有BallShape类保持不变
+class BallShape {
+    constructor(name, color, diameter, mass) {
+        this.name = name;
+        this.color = color;
+        this.diameter = diameter;
+        this.mass = mass;
+        this.element = null;
+    }
+
+    createElement() {
+        const elem = document.createElement('div');
+        elem.className = this instanceof Star ? 'star' : 'planet';
+        elem.style.width = `${this.diameter}px`;
+        elem.style.height = `${this.diameter}px`;
+        elem.style.backgroundColor = this.color;
+        elem.title = `${this.name}\nDiameter: ${this.diameter}px\nMass: ${this.mass}`;
+        return elem;
+    }
+
+    render(container) {
+        this.element = this.createElement();
+        container.appendChild(this.element);
+        return this;
+    }
+}
+
+// 其他原有类保持不变...
+
+// 添加表格功能
+class SolarSystem {
+    constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        this.bodies = [];
+        this.startTime = Date.now();
+        this.animationId = null;
+        this.sortState = { column: 'name', asc: true };
+    }
+
+    // 新增方法：生成表格数据
+    generateTableData() {
+        return this.bodies.map(body => ({
+            name: body.name,
+            mass: body.mass,
+            orbitRadius: body.orbitRadius || 0,
+            color: body.color,
+            diameter: body.diameter
+        }));
+    }
+
+    // 新增方法：排序并更新表格
+    sortAndUpdateTable(column) {
+        if (this.sortState.column === column) {
+            this.sortState.asc = !this.sortState.asc;
+        } else {
+            this.sortState = { column, asc: true };
+        }
+
+        const data = this.generateTableData().sort((a, b) => {
+            const modifier = this.sortState.asc ? 1 : -1;
+            if (typeof a[column] === 'string') {
+                return a[column].localeCompare(b[column]) * modifier;
+            }
+            return (a[column] - b[column]) * modifier;
+        });
+
+        this.updateTableDisplay(data);
+    }
+
+    // 新增方法：更新表格显示
+    updateTableDisplay(data) {
+        const tbody = document.getElementById('table-body');
+        tbody.innerHTML = data.map(body => `
+            <tr>
+                <td>${body.name}</td>
+                <td>${body.mass.toLocaleString()}</td>
+                <td>${body.orbitRadius}</td>
+                <td><div class="color-swatch" style="background:${body.color}"></div></td>
+                <td>${body.diameter}</td>
+            </tr>
+        `).join('');
+    }
+}
+
+// 初始化点击事件
+document.addEventListener('click', (e) => {
+    const table = document.getElementById('info-table');
+    if (!e.target.closest('#info-table')) {
+        table.style.display = table.style.display === 'none' ? 'block' : 'none';
+        if (table.style.display === 'block') {
+            solarSystem.sortAndUpdateTable(solarSystem.sortState.column);
+        }
+    }
+});
+
+// 表格排序事件
+document.querySelectorAll('th[data-sort]').forEach(th => {
+    th.addEventListener('click', () => {
+        const column = th.dataset.sort;
+        solarSystem.sortAndUpdateTable(column);
+        document.querySelectorAll('th').forEach(h => h.innerHTML = h.innerHTML.replace('▲▼', ''));
+        th.innerHTML += this.sortState.asc ? '▲' : '▼';
+    });
+});
+
+// 初始化模拟系统
+document.addEventListener('DOMContentLoaded', () => {
+    window.solarSystem = new SolarSystem('solar-system');
+    
+    // 添加原有天体...
+    solarSystem.addBody(new Star('Sun', '#f39c12', 50, 333000));
+    solarSystem.addBody(new Mercury());
+    solarSystem.addBody(new Venus());
+    solarSystem.addBody(new Earth());
+    solarSystem.addBody(new Mars());
+    solarSystem.addBody(new Jupiter());
+    solarSystem.addBody(new Saturn());
+    solarSystem.addBody(new Uranus());
+    solarSystem.addBody(new Neptune());
+    
+    solarSystem.startSimulation();
+});
+</script>
+</body>
+</html>
